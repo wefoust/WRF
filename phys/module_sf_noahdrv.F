@@ -692,7 +692,13 @@ CONTAINS
    REAL :: SIGMA_SB,RL_UP_RURAL,RL_UP_TOT,RS_ABS_TOT,UMOM,VMOM
    REAL :: CMR_URB, CHR_URB, CMC_URB, CHC_URB, CMGR_URB, CHGR_URB
    REAL :: frc_urb,lb_urb
-   REAL :: check 
+   REAL :: check
+! --- Temporary: per-run constants (declare once in this subroutine) ---
+   INTEGER, DIMENSION( ims:ime, jms:jme ), INTENT(IN) :: ADAPT_MASK
+   REAL, PARAMETER :: adapt_albr_scalar = 0.70   ! roof
+   REAL, PARAMETER :: adapt_albb_scalar = 0.70   ! wall
+   REAL, PARAMETER :: adapt_albg_scalar = 0.70   ! road
+   CHARACTER(LEN=256) :: mesg
 ! ----------------------------------------------------------------------
 ! DECLARATIONS END - urban
 ! ----------------------------------------------------------------------
@@ -1451,7 +1457,11 @@ CONTAINS
                        TGRL_URB,SMR_URB,CMGR_URB,CHGR_URB,jmonth,       & ! H
                        DRELR_URB,DRELB_URB,                             & ! H
                        DRELG_URB,FLXHUMR_URB,FLXHUMB_URB,FLXHUMG_URB,   &
-                       lf_urb_s, z0_urb, vegfrac)
+                       lf_urb_s, z0_urb, vegfrac,                       &
+                       ADAPT_MASK_SCALAR = adapt_mask(i,j),             &
+                       ADAPT_ALBR_SCALAR = adapt_albr_scalar,           &
+                       ADAPT_ALBB_SCALAR = adapt_albb_scalar,           &
+                       ADAPT_ALBG_SCALAR = adapt_albg_scalar)            
 
 #if 0
           IF(IPRINT) THEN
@@ -3907,7 +3917,11 @@ SUBROUTINE lsm_mosaic(DZ8W,QV3D,P8W3D,T3D,TSK,                      &
                              TGRL_URB,SMR_URB,CMGR_URB,CHGR_URB,jmonth,       & ! H
                              DRELR_URB,DRELB_URB,                             & ! H
                              DRELG_URB,FLXHUMR_URB,FLXHUMB_URB,FLXHUMG_URB,   &
-                             lf_urb_s, z0_urb, vegfrac)
+                             lf_urb_s, z0_urb, vegfrac,                       &
+                             ADAPT_MASK_SCALAR = adapt_mask(i,j),             &
+                             ADAPT_ALBR_SCALAR = adapt_albr_scalar,           &
+                             ADAPT_ALBB_SCALAR = adapt_albb_scalar,           &
+                             ADAPT_ALBG_SCALAR = adapt_albg_scalar)            
 
 #if 0
                 IF(IPRINT) THEN
@@ -4787,7 +4801,11 @@ SUBROUTINE lsm_mosaic(DZ8W,QV3D,P8W3D,T3D,TSK,                      &
                              TGRL_URB,SMR_URB,CMGR_URB,CHGR_URB,jmonth,       & ! H
                              DRELR_URB,DRELB_URB,                             & ! H
                              DRELG_URB,FLXHUMR_URB,FLXHUMB_URB,FLXHUMG_URB,   &
-                             lf_urb_s, z0_urb, vegfrac)
+                             lf_urb_s, z0_urb, vegfrac,                       &
+                             ADAPT_MASK_SCALAR = adapt_mask(i,j),             &
+                             ADAPT_ALBR_SCALAR = adapt_albr_scalar,           &
+                             ADAPT_ALBB_SCALAR = adapt_albb_scalar,           &
+                             ADAPT_ALBG_SCALAR = adapt_albg_scalar)            
 
 #if 0
                 IF(IPRINT) THEN
