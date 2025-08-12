@@ -1339,7 +1339,14 @@ integer::oops1,oops2
                                        ids , ide , jds , jde , kds , kde , &
                                        ims , ime , jms , jme , kms , kme , &
                                        its , ite , jts , jte , kts , kte )
-
+         IF (.NOT. ALLOCATED(grid%adapt_mask)) THEN
+             ALLOCATE(grid%adapt_mask(ims:ime, jms:jme))
+         END IF
+         DO j = jts, min(jde-1, jte)
+             DO i = its, min(ide-1, ite)
+                 grid%adapt_mask(i,j) = 0
+             END DO
+        END DO
 #if ( WRF_CHEM == 1 )
          ! Chose the appropriate LAI veg mask for this date (used in the AFWA dust model)
 
