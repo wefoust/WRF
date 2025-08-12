@@ -319,7 +319,9 @@ USE module_model_constants, ONLY :  piconst
                     lp_urb,hgt_urb,frc_urb,lb_urb,zo_check,           & ! O
                     CMCR,TGR,TGRL,SMR,CMGR_URB,CHGR_URB,jmonth,       & ! H
                     DRELR,DRELB,DRELG,FLXHUMR,FLXHUMB,FLXHUMG,        &
-                    lf_urb_s, z0_urb, vegfrac_in)
+                    lf_urb_s, z0_urb, vegfrac_in,                     &
+                    ADAPT_MASK_SCALAR, ADAPT_ALBR_SCALAR,             &
+                    ADAPT_ALBB_SCALAR, ADAPT_ALBG_SCALAR)
 
    IMPLICIT NONE
 
@@ -476,6 +478,8 @@ USE module_model_constants, ONLY :  piconst
    REAL, DIMENSION(1:num_roof_layers), INTENT(INOUT) :: SMR        
    REAL, DIMENSION(1:num_roof_layers), INTENT(INOUT) :: TGRL
 
+   INTEGER, INTENT(IN), OPTIONAL :: ADAPT_MASK_SCALAR
+   REAL,    INTENT(IN), OPTIONAL :: ADAPT_ALBR_SCALAR, ADAPT_ALBB_SCALAR, ADAPT_ALBG_SCALAR
 !-------------------------------------------------------------------------------
 ! L:  Local variables from read_param
 !-------------------------------------------------------------------------------
@@ -643,7 +647,14 @@ USE module_model_constants, ONLY :  piconst
 !end BEP
                    BOUNDR,BOUNDB,BOUNDG,CH_SCHEME,TS_SCHEME,      &
                    AKANDA_URBAN,ALH)
-
+! ---- Adaptation override of facet albedos (per-grid) ----
+IF (PRESENT(ADAPT_MASK_SCALAR)) THEN
+  IF (ADAPT_MASK_SCALAR == 1) THEN
+    IF (PRESENT(ADAPT_ALBR_SCALAR)) ALBR = MAX(0.0, MIN(0.95, ADAPT_ALBR_SCALAR))
+    IF (PRESENT(ADAPT_ALBB_SCALAR)) ALBB = MAX(0.0, MIN(0.95, ADAPT_ALBB_SCALAR))
+    IF (PRESENT(ADAPT_ALBG_SCALAR)) ALBG = MAX(0.0, MIN(0.95, ADAPT_ALBG_SCALAR))
+  END IF
+END IF
 ! Glotfelty, 2012/07/05, NUDAPT Modification
 
  if (mh_urb.gt.0.0 .and. .not. distributed_aerodynamics_option) THEN
