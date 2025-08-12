@@ -23,6 +23,7 @@ CONTAINS
      &          ,raincv,rho,sfcevp,sfcexc,sfcrunoff ,acrunoff         &
      &          ,smois,smstav,smstot,snoalb,snow,snowc,snowh,stepbl   &
      &          ,smcrel                                               &
+     &          ,ADAPT_MASK                                           & ! EF New
      &          ,th10,th2,thz0,th_phy,tmn,tshltr,tsk,tslb             &
      &          ,tyr,tyra,tdly,tlag,lagday,nyear,nday,tmn_update,yr   &
      &          ,t_phy,u10,udrunoff,ust,uz0                           &
@@ -1140,6 +1141,8 @@ CONTAINS
    INTEGER, INTENT(IN) :: ne_area
 #endif
 !   End modification
+
+   INTEGER, DIMENSION(ims:ime, jms:jme), INTENT(IN) :: ADAPT_MASK ! Added Eliott F
 
   integer, optional,  dimension(ims:ime,jms:jme ),intent(inout) :: numc,nump
   real,    optional,  dimension(ims:ime,jms:jme ),intent(inout) :: sabv,sabg,lwup
@@ -2770,7 +2773,7 @@ CONTAINS
                 ,sfcheadrt,INFXSRT, soldrain                    & !hydro
 #endif
                 ,SDA_HFX, SDA_QFX, HFX_BOTH, QFX_BOTH, QNORM, fasdas    & ! fasdas
-                ,RS,XLAIDYN,IRRIGATION_CHANNEL)
+                ,RS,XLAIDYN,IRRIGATION_CHANNEL,ADAPT_MASK)
            ELSE
                CALL wrf_error_fatal('Lack arguments to call lsm_mosaic')
            ENDIF
@@ -2903,7 +2906,7 @@ CONTAINS
                 ,sfcheadrt,INFXSRT, soldrain                    &
 #endif
                 ,SDA_HFX, SDA_QFX, HFX_BOTH, QFX_BOTH, QNORM, fasdas    &
-                ,RS,XLAIDYN,IRRIGATION_CHANNEL)
+                ,RS,XLAIDYN,IRRIGATION_CHANNEL,ADAPT_MASK)
          ENDIF
 
          if (pert_noah .and. multi_perturb == 1) then
