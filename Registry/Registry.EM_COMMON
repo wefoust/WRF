@@ -993,6 +993,8 @@ state    real      ECOBSC       ij          misc        1        -     rh     "E
 state    real      elon_track   -           misc        1        -     rh     "elon_track"  "ECLIPSE LON"     "degrees"
 state    real      elat_track   -           misc        1        -     rh     "elat_track"  "ECLIPSE LAT"     "degrees"
 
+state    integer  ADAPT_MASK    ij          misc        1        -     irh    "ADAPT_MASK" "Flag for adaptation grid cell"   "dimensionless"
+
 # solar location variables from radiation driver
 state    real   COSZEN           ij     misc        1         -      rh      "COSZEN"  "COS of SOLAR ZENITH ANGLE"     "dimensionless"
 state    real   HRANG            ij     misc        1         -      r       "HRANG"   "SOLAR HOUR ANGLE"          "radians"
