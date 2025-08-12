@@ -768,6 +768,7 @@ BENCH_START(surf_driver_tim)
      &        ,SHADOWMASK=grid%shadowmask,DIFFUSE_FRAC=grid%diffuse_frac               & ! solar
      &        ,SLOPE=grid%slope, SLP_AZI=grid%slp_azi, SWNORM=grid%swnorm              & ! solar
      &        ,DECLIN=grid%declin ,SOLCON=grid%solcon ,COSZEN=grid%coszen ,HRANG=grid%hrang    &
+     &        ,ADAPT_MASK=grid%adapt_mask                                 & !EF
      &        ,xlat_urb2d=grid%XLAT                                       & !I urban
      &        ,NUM_ROOF_LAYERS=num_roof_layers                            & !I urban
      &        ,NUM_WALL_LAYERS=num_wall_layers                            & !I urban
